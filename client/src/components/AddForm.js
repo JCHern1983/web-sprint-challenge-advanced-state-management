@@ -1,21 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class AddForm extends React.Component {
+const AddForm = (props) => {
+    const [newSmurf, setNewSmurf] = useState({
+        name: '',
+        position:'',
+        nickname:'',
+        description:''
+    });
 
-    render() {
+    const handleSubmit = e => {
+        e.preventDefault();
+        props.addSmurf(newSmurf);
+        setNewSmurf({
+            name: '',
+            position:'',
+            nickname:'',
+            description:''
+        });
+    };
+
+    const handleChanges = e => {
+        setNewSmurf({ 
+            ...newSmurf, 
+            [e.target.name]: e.target.value 
+        });
+    };
+
+
+
         return(<section>
             <h2>Add Smurf</h2>
-            <form>
+            <form onSubmit={handleSubmit} >
                 <div className="form-group">
                     <label htmlFor="name">Name:</label><br/>
-                    <input onChange={this.handleChange} name="name" id="name" />
+                    <input onChange={handleChanges} name="name" id="name" />
                 </div>
+                <div className="form-group">
+                <label htmlFor="position">Position:</label><br/>
+                <input onChange={handleChanges} name="position" id="position" />
+            </div>
+            <div className="form-group">
+            <label htmlFor="nickname">Nickname:</label><br/>
+            <input onChange={handleChanges} name="nickname" id="nickname" />
+        </div>
+            <div className="form-group">
+            <label htmlFor="description">Description:</label><br/>
+            <input onChange={handleChanges} name="description" id="description" />
+        </div>
 
                 <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: </div>
                 <button>Submit Smurf</button>
             </form>
         </section>);
-    }
+
 }
 
 export default AddForm;
